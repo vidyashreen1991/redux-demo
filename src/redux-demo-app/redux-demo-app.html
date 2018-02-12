@@ -1,0 +1,28 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="nav-page.html">
+<link rel="import" href="main-page.html">
+<dom-module id="redux-demo-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+   <div>
+     <nav-page></nav-page>
+     <main-page></main-page>
+   </div>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class ReduxDemoApp extends Polymer.Element {
+      static get is() { return 'redux-demo-app'; }
+    }
+
+    window.customElements.define(ReduxDemoApp.is, ReduxDemoApp);
+  </script>
+</dom-module>

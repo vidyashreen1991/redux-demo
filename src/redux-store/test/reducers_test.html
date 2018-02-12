@@ -1,0 +1,35 @@
+<link rel="import" href="../reducers.html">
+ <script src="../../../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../../../web-component-tester/browser.js"></script>
+<script>
+describe('todos reducer', () => {
+var initialState = {
+  tabData: {
+        tabs: [],
+        selected: null
+      },
+      tickets: new Map()
+};
+
+  it('should handle ADD_TAB', () => {
+    var id  = 0;
+    expect(
+      addTab(initialState, {
+        type: 'ADD_TAB',
+        data: {
+          id: id,
+          label: 'vanilla'
+        }
+      }).tabData.tabs
+    ).to.deep.equal([
+      {
+          id: id,
+          label: 'vanilla'
+        }
+    ])
+
+    
+  })
+})
+
+</script>

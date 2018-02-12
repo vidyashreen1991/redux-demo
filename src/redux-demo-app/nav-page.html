@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../redux-store/app-store.html">
+<dom-module id="nav-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <button label="vanilla" on-click="addTab">Vanilla</button>
+    <button label="strangle" on-click="addTab">Strangle</button>
+    <button label="straddle" on-click="addTab">Straddle</button>
+    <button label="rr" on-click="addTab">Risk Reversal</button>
+
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class NavPage extends AppReduxMixin(Polymer.Element) {
+      static get is() { return 'nav-page'; }
+      addTab(event){
+        this.dispatch('addTab', {
+            label: event.srcElement.innerText
+        });
+      }
+
+    }
+
+    window.customElements.define(NavPage.is, NavPage);
+  </script>
+</dom-module>

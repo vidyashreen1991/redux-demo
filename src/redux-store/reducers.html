@@ -1,0 +1,95 @@
+<script>
+	const tickets = (state=new Map(), action)=>{
+		var newState = new Map(state);
+		if(action && action.data && newState.get(action.data.key)){
+			var data = action.data;
+			switch(action.type){
+				case 'SET_DATA':
+
+				break;
+			}
+		}
+		return newState;
+	}
+
+	const tabData = (state = {
+		tabs: [],
+		selected: null
+	}, action)=>{
+		return Object.assign({}, state);
+	}
+
+	const tabManager = (state, action)=>{
+		var newState = Object.assign({}, state);
+		newState.tickets = new Map(state.tickets);
+		newState.tabData = Object.assign({}, state.tabData);
+		newState.tabData.tabs = state.tabData.tabs.splice(0);
+		switch(action.type){
+			case 'ADD_TAB':
+				return addTab(newState, action);
+				break;
+			case 'DELETE_TAB':
+				return deleteTab(newState, action);
+				break;
+			case 'DUPLICATE_TAB':
+				return duplicateTab(newState, action);
+				break;
+			case 'SET_SELECTED_TAB':
+				return setSelectedTab(newState, action);
+				break;
+		}
+		return newState;
+	}
+
+
+	function addTab(newState, action){
+		newState.tabData.tabs.unshift(Object.assign({},action.data));
+		newState.tabData.selected = action.data.id;
+		action.data.id ? newState.tickets.set(action.data.id, {
+			uuid: action.data.id
+		}) : newState;
+		return newState;
+	}
+
+	function deleteTab(newState, action) {
+		var index = newState.tabData.tabs.findIndex((tab)=>tab.id == action.data.id);
+		let tabs = newState.tabData.tabs;
+		let selected = newState.tabData.selected;
+		newState.tabData.tabs.splice(index, 1);
+		newState.tickets.delete(action.data.id);
+		if(action.data.id === newState.tabData.selected){
+			if(!tabs.length){
+				selected = 'menu';
+			}else if(!tabs[index]){
+				selected = tabs[index - 1].id;
+			}else{
+				selected = tabs[index].id;
+			}
+		}
+		newState.tabData.selected = selected;
+		return newState;
+	}
+
+	function duplicateTab(newState, action) {
+		var originTab = newState.tabData.tabs.find((tab) => tab.id === action.data.key);
+		var tab = {
+			id: action.data.id,
+			type: originTab.type,
+			label: originTab.label,
+			duplicateKey: action.data.key,
+			readonly: false
+		};
+		newState.tabData.tabs.unshift(Object.assign({},tab));
+		newState.tabData.selected = tab.id;
+		action.data.id ? newState.tickets.set(action.data.id, {
+			duplicateKey: action.data.key
+		}) : newState;
+		return newState;
+
+	}
+
+	function setSelectedTab(newState, action){
+		newState.tabData.selected = action.data.select;
+		return newState;
+	}
+</script>

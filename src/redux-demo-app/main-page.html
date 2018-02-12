@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../redux-store/app-store.html">
+<dom-module id="main-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <dom-repeat items="[[tabs]]">
+      <template>
+        <div id="[[item.id]]" on-click="deleteTab"> <span>[[item.label]]</span></div>
+      </template>
+    </dom-repeat>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class MainPage extends AppReduxMixin(Polymer.Element) {
+      static get is() { return 'main-page'; }
+
+      static get properties() {
+        return {
+          tabs: {
+            type: Array,
+            statePath: 'tabData.tabs'
+          },
+
+          selected:{
+            type: String,
+            statePath: 'tabData.selected'
+          }
+
+        };
+      }
+
+      deleteTab(event){
+        this.dispatch('deleteTab', {
+            id: event.currentTarget.id
+        });
+      }
+
+    }
+
+    window.customElements.define(MainPage.is, MainPage);
+  </script>
+</dom-module>

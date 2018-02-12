@@ -1,0 +1,42 @@
+<script>
+	ActionsMixin = superClass => class Actions extends superClass{
+		static get actions() {
+			return {
+				addTab(action) {
+					action.id = Math.random();
+					return { 
+						type: 'ADD_TAB',
+						data: action
+					};
+				},
+
+				deleteTab(action){
+					return function (dispatch, getState) {
+						setTimeout(()=>{
+							dispatch({
+								type: 'DELETE_TAB',
+								data: action
+							});
+						},3000)
+						
+					}
+				},
+
+				duplicateTab(action){
+					action.id = Math.random();
+					return { 
+						type: 'DUPLICATE_TAB',
+						data: action
+					};
+				},
+
+				setSlectedTab(action){
+					return{
+						type: 'SET_SELECTED_TAB',
+						data: action
+					}
+				}
+			}
+		}
+	}
+</script>
